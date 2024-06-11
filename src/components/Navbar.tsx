@@ -25,7 +25,7 @@ const Navbar = () => {
             <div className="items-center px-4 max-w-screen-xl mx-auto md:flex md:px-8">
                 <div className="flex items-center justify-between py-3 md:py-5 md:block">
                     <Link to="/">
-                        <h1 className="text-2xl font-bold text-slate-900">Expense Tracker</h1>
+                        <h1 className="text-2xl font-bold text-slate-900">BlogFi</h1>
                     </Link>
                     <div className="md:hidden">
                         <button

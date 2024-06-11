@@ -5,7 +5,7 @@ import { Input } from "./ui/input";
 const Login = () => {
     return (
         <Dialog>
-            <DialogTrigger className="py-2  px-3 border-2 rounded-lg text-white text-slate-900">Login</DialogTrigger>
+            <DialogTrigger className="py-2  px-3 border-2 rounded-lg text-slate-900">Login</DialogTrigger>
             <DialogContent className="w-3/4 rounded-lg md:w-1/2 lg:w-3/12">
                 <DialogHeader>
                     <DialogTitle className="text-2xl text-center mb-3">Log In</DialogTitle>
