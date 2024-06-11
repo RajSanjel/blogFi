@@ -14,7 +14,7 @@ type MenuItemsProps = {
 const menuItems: MenuItemsProps = [
     {
         title: "Blogs",
-        path: "/blog"
+        path: "/blogs"
     }
 ]
 
