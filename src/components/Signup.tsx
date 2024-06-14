@@ -11,8 +11,11 @@ const Signup = () => {
                     <DialogTitle className={"text-2xl text-center"}>Sign Up</DialogTitle>
                     <form >
                         <DialogDescription>
-
                             <span className="grid gap-3 text-lg text-slate-950">
+                                <label htmlFor="fullName">
+                                    Full Name
+                                    <Input type="text" id="fullName" placeholder="Full Name" autoComplete="name" />
+                                </label>
                                 <label htmlFor="username">
                                     Username
                                     <Input type="text" id="username" placeholder="Username" autoComplete="username" />

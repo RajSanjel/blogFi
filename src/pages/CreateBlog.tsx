@@ -4,12 +4,11 @@ import Header from '@editorjs/header';
 import ImageTool from '@editorjs/image';
 import List from '@editorjs/list';
 import { useEffect, useRef } from 'react';
-
+import config from "../config"
+import axios from "axios";
 
 const CreateBlog = () => {
     const createBlogRef = useRef<any>(null);
-    // const [content, setContent] = useState("")
-
     const initEditor = () => {
         const editor = new EditorJS({
             holder: "blogContent",
@@ -18,8 +17,41 @@ const CreateBlog = () => {
                 header: Header,
                 list: List,
                 image: {
-                    class: ImageTool
+                    class: ImageTool,
+                    config: {
+                        uploader: {
+                            async uploadByFile(file: object) {
+                                const a = await axios.post(`${config.API_END_POINT}/api/media/upload`, {
+                                    file: file
+                                }, {
+                                    headers: {
+                                        "Content-Type": "multipart/form-data"
+                                    }
+                                },
+                                )
+                                return {
+                                    success: 1,
+                                    file: {
+                                        url: a.data.img_url
+                                    }
+                                };
+                            },
+                            async uploadByUrl(file: object) {
+                                console.log(file)
+                                const a = await axios.post(`${config.API_END_POINT}/api/media/upload`, {
+                                    img_url: file
+                                },
+                                )
 
+                                return {
+                                    success: 1,
+                                    file: {
+                                        url: a.data.img_url
+                                    }
+                                };
+                            },
+                        }
+                    }
                 }
             },
             inlineToolbar: true,
@@ -46,11 +78,8 @@ const CreateBlog = () => {
     }, [])
 
     return (
-        <div className="container w-2/3">
-
-            <input type="text" className="w-full text-4xl p-4 focus:outline-none" name="blogtitle" id="blogtitle" placeholder="Title" />
-            {/* <textarea className="w-full min-h-min text-xl p-4 focus:outline-none" name="blogContent" id="blogContent" placeholder="Tell your story..." /> */}
-
+        <div className="container lg:w-2/3 shadow-2xl">
+            <textarea className="w-full min-h-fit h-20 text-4xl p-4 focus:outline-none overflow-hidden resize-none " name="blogtitle" id="blogtitle" placeholder="Title" />
             <div id="blogContent"></div>
         </div>
     );
