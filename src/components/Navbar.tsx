@@ -21,8 +21,8 @@ const menuItems: MenuItemsProps = [
 const Navbar = () => {
     const [isHamburger, setIsHamburger] = useState(false)
     return (
-        < nav className="bg-white w-full border-gray border-b-2 shadow-md mb-8" >
-            <div className="items-center px-4 max-w-screen-xl mx-auto md:flex md:px-8">
+        < nav className="bg-white w-full border-gray border-b-2 shadow-md mb-8 " >
+            <div className="items-center px-4 max-w-screen-xl mx-auto md:flex md:px-20 md:max-w-[1600px] ">
                 <div className="flex items-center justify-between py-3 md:py-5 md:block">
                     <Link to="/">
                         <h1 className="text-2xl font-bold text-slate-900">BlogFi</h1>
@@ -43,7 +43,7 @@ const Navbar = () => {
                     <ul className="justify-end items-center space-y-8 md:flex md:space-x-6 md:space-y-0">
                         {menuItems.map((item, idx) => (
                             <li key={idx} className="text-slate-900 hover:text-slate-600">
-                                <Link to={item.path || " "} onClick={() => setIsHamburger(false)}>{item.title}</Link>
+                                <Link to={item.path || "/"} onClick={() => setIsHamburger(false)}>{item.title}</Link>
                             </li>
                         ))}
                         <li>

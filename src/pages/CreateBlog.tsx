@@ -4,8 +4,8 @@ import Header from '@editorjs/header';
 import ImageTool from '@editorjs/image';
 import List from '@editorjs/list';
 import { useEffect, useRef } from 'react';
-import config from "../config"
 import axios from "axios";
+import API_CONFIG from "../config";
 
 const CreateBlog = () => {
     const createBlogRef = useRef<any>(null);
@@ -21,7 +21,7 @@ const CreateBlog = () => {
                     config: {
                         uploader: {
                             async uploadByFile(file: object) {
-                                const a = await axios.post(`${config.API_END_POINT}/api/media/upload`, {
+                                const a = await axios.post(`${API_CONFIG.uploadMeida}`, {
                                     file: file
                                 }, {
                                     headers: {
@@ -38,7 +38,7 @@ const CreateBlog = () => {
                             },
                             async uploadByUrl(file: object) {
                                 console.log(file)
-                                const a = await axios.post(`${config.API_END_POINT}/api/media/upload`, {
+                                const a = await axios.post(`${API_CONFIG.uploadMeida}`, {
                                     img_url: file
                                 },
                                 )
