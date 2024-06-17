@@ -3,10 +3,10 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { Input } from "./ui/input";
 import z from "zod";
 import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
-import API_CONFIG from "@/config";
-import axios from "axios";
+import { useAuth } from "@/context/authContext";
 
 const Signup = () => {
+    const { signup } = useAuth();
     const signupSchema = z.object({
         email: z.string().email("Invalid Email"),
         username: z.string().min(3, { message: "Username should be atleast 3 characters" }),
@@ -17,6 +17,7 @@ const Signup = () => {
         message: "Password doesn't match",
         path: ["confirmPassword"],
     })
+
     const [name, setName] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -34,7 +35,8 @@ const Signup = () => {
         email,
         username,
         name,
-        password, confirmPassword
+        password,
+        confirmPassword
     }
 
     const handleSignup = async (e: React.SyntheticEvent) => {
@@ -51,24 +53,22 @@ const Signup = () => {
             return;
         }
         try {
-            console.log(signupData)
-            await axios.post(`${API_CONFIG.signup}`, signupData).then(res => {
-                if (res.status == 200) {
-                    setUsername("")
-                    setPassword("");
-                    setConfirmPassword("")
-                    setName("")
-                    setEmail("")
-                    setError(undefined)
-                    setEmailError("")
-                    setNameError("")
-                    setUsernameError("")
-                    setPasswordError("")
-                    setConfirmPasswordError("")
-                    return;
-                }
+            const res = await signup(signupData);
+            if (res.status == 200) {
+                setUsername("")
+                setPassword("");
+                setConfirmPassword("")
+                setName("")
+                setEmail("")
+                setError(undefined)
+                setEmailError("")
+                setNameError("")
+                setUsernameError("")
+                setPasswordError("")
+                setConfirmPasswordError("")
+                return;
             }
-            )
+
         } catch (err: any) {
             const error = await err?.response?.data?.msg;
             setError(error)

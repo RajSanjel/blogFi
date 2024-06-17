@@ -2,10 +2,11 @@ import { useState } from "react";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "./ui/alert-dialog";
 import { Input } from "./ui/input";
 import z from "zod";
-import axios from "axios";
-import API_CONFIG from "@/config";
 import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
+import { useAuth } from "@/context/authContext";
+
 const Login = () => {
+    const { login } = useAuth()
     const loginSchema = z.object(
         {
             emailOrUsername: z.string().min(3, { message: "Email or Username invalid" }),
@@ -31,17 +32,15 @@ const Login = () => {
             return;
         }
         try {
-            await axios.post(`${API_CONFIG.login}`, loginData, { withCredentials: true }).then(res => {
-                if (res.status == 200) {
-                    setEmailError("");
-                    setPasswordError("");
-                    setEmailOrUsername("");
-                    setPassword("");
-                    setError(undefined)
-                    return;
-                }
+            const res = await login(loginData);
+            if (res.status == 200) {
+                setEmailError("");
+                setPasswordError("");
+                setEmailOrUsername("");
+                setPassword("");
+                setError(undefined)
+                return;
             }
-            )
         } catch (err: any) {
             const error = await err?.response?.data?.msg;
             setError(error)

@@ -3,6 +3,9 @@ import Login from "./Login";
 import Signup from "./Signup";
 import { useState } from "react";
 import { Menu } from "lucide-react";
+import { useAuth } from "@/context/authContext";
+import { UserDataDropDown } from "./UserDataDropDown";
+import { Logout } from "./Logout";
 
 type MenuItemsProps = {
     title: string,
@@ -11,13 +14,20 @@ type MenuItemsProps = {
     isOutline?: boolean
 }[]
 
-const menuItems: MenuItemsProps = [
-    {
-        title: "Blogs",
-        path: "/blogs"
-    }
-]
 const Navbar = () => {
+    const { isAuth } = useAuth();
+
+    const menuItems: MenuItemsProps = [
+        ...(isAuth ?
+            [{
+                title: "Write",
+                path: "/create"
+            }] : []
+        ),
+        {
+            title: "Blogs",
+            path: "/blogs"
+        }]
     const [isHamburger, setIsHamburger] = useState(false)
     return (
         < nav className="bg-white w-full border-gray border-b-2 shadow-md mb-8 " >
@@ -39,16 +49,26 @@ const Navbar = () => {
                     className={`flex-1 justify-self-center pb-3 mt-8 md:block md:pb-0 md:mt-0 ${isHamburger ? "block" : "hidden"
                         }`}
                 >
-                    <ul className="justify-end items-center space-y-8 md:flex md:space-x-6 md:space-y-0">
+                    <ul className="justify-end items-center space-y-8 md:flex md:space-x-8 md:space-y-0">
                         {menuItems.map((item, idx) => (
-                            <li key={idx} className="text-slate-900 hover:text-slate-600 px-3">
+                            <li key={idx} className="text-slate-900 hover:text-slate-600">
                                 <Link to={item.path || "/"} onClick={() => setIsHamburger(false)}>{item.title}</Link>
                             </li>
                         ))}
-                        <li>
-                            <Login />
-                        </li>
-                        <li><Signup /></li>
+                        {
+                            isAuth ?
+                                <>
+                                    <UserDataDropDown />
+                                    <Logout />
+                                </>
+                                :
+                                <>
+                                    <li>
+                                        <Login />
+                                    </li>
+                                    <li><Signup /></li>
+                                </>
+                        }
                     </ul>
                 </div>
             </div>

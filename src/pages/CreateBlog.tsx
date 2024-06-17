@@ -6,8 +6,10 @@ import List from '@editorjs/list';
 import { useEffect, useRef } from 'react';
 import axios from "axios";
 import API_CONFIG from "../config";
-
+import { useAuth } from "../context/authContext";
 const CreateBlog = () => {
+    const { isAuth } = useAuth();
+
     const createBlogRef = useRef<any>(null);
     const initEditor = () => {
         const editor = new EditorJS({
@@ -30,8 +32,8 @@ const CreateBlog = () => {
                                 },
                                 )
                                 return {
-                                    success: 1,
                                     file: {
+                                        success: 1,
                                         url: a.data.img_url
                                     }
                                 };
@@ -76,12 +78,18 @@ const CreateBlog = () => {
             createBlogRef.current = null;
         }
     }, [])
-
+    console.log(isAuth)
     return (
-        <div className="container lg:w-2/3 shadow-2xl">
-            <textarea className="w-full min-h-fit h-20 text-4xl p-4 focus:outline-none overflow-hidden resize-none " name="blogtitle" id="blogtitle" placeholder="Title" />
-            <div id="blogContent"></div>
-        </div>
+        <>
+            {
+                isAuth ?
+                    <div className="container lg:w-2/3 w-4/5 shadow-2xl">
+                        <textarea className="w-full min-h-fit h-20 text-4xl p-4 focus:outline-none overflow-hidden resize-none " name="blogtitle" id="blogtitle" placeholder="Title" />
+                        <div id="blogContent"></div>
+                    </div> :
+                    <h1 className="text-center text-2xl">You must be logged in to write a blog.</h1>
+            }
+        </>
     );
 }
 
