@@ -5,7 +5,6 @@ import { useState } from "react";
 import { Menu } from "lucide-react";
 import { useAuth } from "@/context/authContext";
 import { UserDataDropDown } from "./UserDataDropDown";
-import { Logout } from "./Logout";
 
 type MenuItemsProps = {
     title: string,
@@ -20,7 +19,7 @@ const Navbar = () => {
     const menuItems: MenuItemsProps = [
         ...(isAuth ?
             [{
-                title: "Write",
+                title: "Create",
                 path: "/create"
             }] : []
         ),
@@ -58,8 +57,9 @@ const Navbar = () => {
                         {
                             isAuth ?
                                 <>
-                                    <UserDataDropDown />
-                                    <Logout />
+                                    <li>
+                                        <UserDataDropDown />
+                                    </li>
                                 </>
                                 :
                                 <>

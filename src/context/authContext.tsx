@@ -14,12 +14,18 @@ type signupDataProps = {
     name: string,
     password: string,
 }
+type UserProp = {
+    fullName: string,
+    email: string,
+    username: string,
+}
 
 type AuthContextProps = {
     isAuth: boolean,
     logout: () => void,
     login: (loginData: loginDataProps) => Promise<{ status: number }>,
     signup: (signupData: signupDataProps) => Promise<{ status: number, data?: any }>
+    user: UserProp
 }
 const AuthContext = createContext({} as AuthContextProps);
 
@@ -32,6 +38,7 @@ export function useAuth() {
 
 export function AuthProvider({ children }: any) {
     const [isAuth, setIsAuth] = useState(false)
+    const [user, setUser] = useState<UserProp>({ fullName: "", email: "", username: "" })
     const confirmAuth = async () => {
         try {
 
@@ -48,6 +55,7 @@ export function AuthProvider({ children }: any) {
     }
     useEffect(() => {
         confirmAuth()
+
     }, [confirmAuth])
 
     const logout = async () => {
@@ -89,10 +97,30 @@ export function AuthProvider({ children }: any) {
         }
     }
 
+    const getUser = async () => {
+        const res = await axios.get(API_CONFIG.getUser, { withCredentials: true })
+        const data = res.data.msg.user
+        try {
+            if (res.status === 200) {
+                setUser({
+                    username: data.username,
+                    fullName: data.fullName,
+                    email: data.email
+                })
+            }
+        } catch (error) {
+            return { status: (error as any).response?.status || 500 };
+        }
+    }
+    useEffect(() => {
+        getUser()
+
+    }, [])
+
     return (
         <>
             <AuthContext.Provider
-                value={{ isAuth, logout, login, signup }}
+                value={{ isAuth, logout, login, signup, user }}
             >
                 {children}
             </AuthContext.Provider>
