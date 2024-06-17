@@ -31,8 +31,10 @@ const Login = () => {
             return;
         }
         try {
-            await axios.post(`${API_CONFIG.login}`, loginData).then(res => {
+            await axios.post(`${API_CONFIG.login}`, loginData, { withCredentials: true }).then(res => {
                 if (res.status == 200) {
+                    setEmailError("");
+                    setPasswordError("");
                     setEmailOrUsername("");
                     setPassword("");
                     setError(undefined)

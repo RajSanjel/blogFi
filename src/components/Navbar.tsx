@@ -17,7 +17,6 @@ const menuItems: MenuItemsProps = [
         path: "/blogs"
     }
 ]
-
 const Navbar = () => {
     const [isHamburger, setIsHamburger] = useState(false)
     return (
@@ -42,7 +41,7 @@ const Navbar = () => {
                 >
                     <ul className="justify-end items-center space-y-8 md:flex md:space-x-6 md:space-y-0">
                         {menuItems.map((item, idx) => (
-                            <li key={idx} className="text-slate-900 hover:text-slate-600">
+                            <li key={idx} className="text-slate-900 hover:text-slate-600 px-3">
                                 <Link to={item.path || "/"} onClick={() => setIsHamburger(false)}>{item.title}</Link>
                             </li>
                         ))}
