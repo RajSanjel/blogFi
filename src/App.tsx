@@ -6,6 +6,7 @@ import Footer from "./components/Footer";
 import Blogs from "./pages/Blogs";
 import CreateBlog from "./pages/CreateBlog";
 import { AuthProvider } from "./context/authContext";
+import Blog from "./pages/Blog";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/blogs" element={<Blogs />} />
             <Route path="/create" element={<CreateBlog />} />
+            <Route path="/blogs/blog/:slug" element={<Blog />} />
             <Route path="/*" element={<NotFound />} />
           </Routes>
         </main>

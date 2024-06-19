@@ -12,7 +12,7 @@ const API_CONFIG = {
     uploadMeida: `${API_END_POINT}/media/upload`,
 
     // get req configs
-    getUser: `${API_END_POINT}/get/user`,
+    getUser: `${API_END_POINT}/users/user`,
 }
 
 export default API_CONFIG;
