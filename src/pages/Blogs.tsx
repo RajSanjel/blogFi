@@ -22,6 +22,7 @@ const Blogs = () => {
     }
     useEffect(() => {
         fetch();
+        document.title = "Blogs";
     }, [])
 
     return (

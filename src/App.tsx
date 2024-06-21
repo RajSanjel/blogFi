@@ -16,21 +16,15 @@ function App() {
       <div className="flex flex-col min-h-screen">
         <Navbar />
         <main className="flex-1">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/blogs" element={
-              <BlogProvider>
-                <Blogs />
-              </BlogProvider>
-            } />
-            <Route path="/blogs/blog/:slug" element={
-              <BlogProvider>
-                <Blog />
-              </BlogProvider>
-            } />
-            <Route path="/create" element={<CreateBlog />} />
-            <Route path="/*" element={<NotFound />} />
-          </Routes>
+          <BlogProvider>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/blogs" element={<Blogs />} />
+              <Route path="/blogs/blog/:slug" element={<Blog />} />
+              <Route path="/create" element={<CreateBlog />} />
+              <Route path="/*" element={<NotFound />} />
+            </Routes>
+          </BlogProvider>
         </main>
         <Footer />
       </ div>

@@ -13,6 +13,7 @@ import { Navigate } from "react-router-dom";
 
 
 const CreateBlog = () => {
+    document.title = "BlogFi - New Blog"
     const { isAuth } = useAuth();
     const editorJsParser = edjsHTML();
     const editorInstanceRef = useRef<EditorJS | null>(null);

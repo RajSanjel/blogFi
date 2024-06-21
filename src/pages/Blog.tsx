@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 export default function Blog() {
+
     const [blog, setBlog] = useState<any>(null);
     const { slug } = useParams();
     const { getBlog } = useBlogs();
@@ -16,7 +17,7 @@ export default function Blog() {
 
     useEffect(() => {
         fetchBlog();
-
+        document.title = blog.title;
     }, [slug]);
     return (
         <div >
