@@ -71,6 +71,58 @@
   }
 }
 
+@layer utilities {
+
+  .blog>h1,
+  .blog>h2,
+  .blog>h3,
+  .blog>h4,
+  .blog>h5 {
+    @apply font-semibold;
+  }
+
+  .blog p,
+  .blog ol,
+  .blog ul {
+    font-size: 1.2rem;
+  }
+
+  .blog ul>li {
+    list-style: disc;
+    margin-left: 2.4rem
+  }
+
+  .blog b {
+    font-weight: 600;
+  }
+
+  .blog ol>li {
+    list-style: decimal;
+    margin-left: 2.4rem
+  }
+
+  .blog h1 {
+    @apply text-[2.25rem];
+  }
+
+  .blog h2 {
+    @apply text-[1.875rem];
+  }
+
+  .blog h3 {
+    @apply text-[1.5rem]
+  }
+
+  .blog h4 {
+    @apply text-[1.25rem]
+  }
+
+  .blog h5 {
+    @apply text-[1rem]
+  }
+
+}
+
 @layer base {
   * {
     @apply border-border;

@@ -13,6 +13,11 @@ const API_CONFIG = {
 
     // get req configs
     getUser: `${API_END_POINT}/users/user`,
+    getBlog: `${API_END_POINT}/blog/getBlog`,
+    getBlogs: `${API_END_POINT}/blog/getBlogs`,
+    // post req configs 
+    postBlog: `${API_END_POINT}/blog/post`
+
 }
 
 export default API_CONFIG;

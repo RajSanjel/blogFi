@@ -1,15 +1,15 @@
-import "./CreateBlog/index.css";
 import EditorJS from '@editorjs/editorjs';
 import Header from '@editorjs/header';
 import ImageTool from '@editorjs/image';
 import List from '@editorjs/list';
 import { useEffect, useRef, useState } from 'react';
 import axios from "axios";
-import API_CONFIG from "../config";
+import API_CONFIG from "../api/config";
 import { useAuth } from "../context/authContext";
 import edjsHTML from "editorjs-html";
 import slug from "slug";
 import z from "zod"
+import { Navigate } from "react-router-dom";
 
 
 const CreateBlog = () => {
@@ -20,6 +20,8 @@ const CreateBlog = () => {
     const [title, setTitle] = useState("");
     const [titleError, setTitleError] = useState<string | undefined>(undefined);
     const [contentError, setContentError] = useState<string | undefined>(undefined);
+    const [navigate, setNavigate] = useState(false)
+
     const blogSchema = z.object({
         url: z.string(),
         title: z.string().max(60, { message: "Blog title is limited to 70 characters." }).and(z.string().min(20, { message: "Blog title must be atleast 20 characters." })),
@@ -80,7 +82,7 @@ const CreateBlog = () => {
             onChange: async () => {
                 const content = await editor.saver.save();
                 const parsedContent = editorJsParser.parse(content);
-                setBlogBody(parsedContent.join(" "));
+                setBlogBody(parsedContent.join("\n"));
             },
 
         });
@@ -106,11 +108,27 @@ const CreateBlog = () => {
         setContentError(errors?.content?._errors[0])
 
     }, [title, blogBody])
-    const handlePost = () => {
+    const handlePost = async () => {
         const isValidBlog = blogSchema.safeParse(submitBlog)
-        return isValidBlog;
+        if (!isAuth) return;
+        if (!isValidBlog.success) return;
+        try {
+            const res = await axios.post(API_CONFIG.postBlog, submitBlog, { withCredentials: true });
+            if (!(res.status === 200)) {
+                return alert("Something went wrong!")
+            }
+            setTitle("");
+            setBlogBody("");
+            editorInstanceRef.current?.clear();
+            setNavigate(true);
+        } catch (error) {
+            console.log((error as Error).message)
+        }
     };
-
+    if (navigate) {
+        console.log("yes");
+        return < Navigate to={`/blogs/blog/${submitBlog.url}`} />
+    }
     return (
         <div className="mb-8">
             {isAuth ? (
@@ -129,10 +147,11 @@ const CreateBlog = () => {
                             <span className="text-xs">{titleError}</span>
                         }
                         <hr />
-                        <div id="blogContent" className="py-6 min-h-96 overflow-y-clip"></div>
+                        <div id="blogContent" className="py-6 min-h-96 blog">
+
+                        </div>
                         {!!titleError &&
                             <span className="text-xs">{contentError}</span>
-
                         }
                         <hr />
                     </div>

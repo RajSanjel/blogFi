@@ -1,3 +1,4 @@
+import './index.css'
 import { Routes, Route } from "react-router-dom/dist";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
@@ -7,6 +8,7 @@ import Blogs from "./pages/Blogs";
 import CreateBlog from "./pages/CreateBlog";
 import { AuthProvider } from "./context/authContext";
 import Blog from "./pages/Blog";
+import { BlogProvider } from "./context/blogContext";
 
 function App() {
   return (
@@ -16,9 +18,17 @@ function App() {
         <main className="flex-1">
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/blogs" element={<Blogs />} />
+            <Route path="/blogs" element={
+              <BlogProvider>
+                <Blogs />
+              </BlogProvider>
+            } />
+            <Route path="/blogs/blog/:slug" element={
+              <BlogProvider>
+                <Blog />
+              </BlogProvider>
+            } />
             <Route path="/create" element={<CreateBlog />} />
-            <Route path="/blogs/blog/:slug" element={<Blog />} />
             <Route path="/*" element={<NotFound />} />
           </Routes>
         </main>

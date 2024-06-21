@@ -1,4 +1,4 @@
-import API_CONFIG from "@/config";
+import API_CONFIG from "@/api/config";
 import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
 
@@ -15,7 +15,7 @@ type signupDataProps = {
     password: string,
 }
 type UserProp = {
-    fullName: string,
+    name: string,
     email: string,
     username: string,
 }
@@ -38,7 +38,7 @@ export function useAuth() {
 
 export function AuthProvider({ children }: any) {
     const [isAuth, setIsAuth] = useState(false)
-    const [user, setUser] = useState<UserProp>({ fullName: "", email: "", username: "" })
+    const [user, setUser] = useState<UserProp>({ name: "", email: "", username: "" })
     const confirmAuth = async () => {
         try {
 
@@ -104,7 +104,7 @@ export function AuthProvider({ children }: any) {
             if (res.status === 200) {
                 setUser({
                     username: data.username,
-                    fullName: data.fullName,
+                    name: data.name,
                     email: data.email
                 })
             }
