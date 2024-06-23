@@ -20,7 +20,7 @@ export default function Blog() {
     return (
         <div >
             {!!blog ? (
-                <section className="container md:w-2/3 w-4/5 pb-3 break-words">
+                <section className="container md:w-2/3 w-full mb-3 break-words">
                     <h1 className="text-4xl font-semibold text-justify">{blog.title}</h1>
                     <hr className="my-4" />
                     <div className="text-justify blog mb-8 grid gap-3" dangerouslySetInnerHTML={{ __html: blog.content }} ></div>

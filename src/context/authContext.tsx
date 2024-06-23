@@ -41,7 +41,6 @@ export function AuthProvider({ children }: any) {
     const [user, setUser] = useState<UserProp>({ name: "", email: "", username: "" })
     const confirmAuth = async () => {
         try {
-
             await axios.post(API_CONFIG.verify, {}, { withCredentials: true }).then(res => {
                 if (res.status === 200) {
                     return setIsAuth(true)
@@ -50,12 +49,12 @@ export function AuthProvider({ children }: any) {
                 }
             })
         } catch (error) {
+            console.log((error as Error).message)
             setIsAuth(false)
         }
     }
     useEffect(() => {
         confirmAuth()
-
     }, [confirmAuth])
 
     const logout = async () => {
@@ -113,9 +112,10 @@ export function AuthProvider({ children }: any) {
         }
     }
     useEffect(() => {
-        getUser()
-
-    }, [])
+        if (isAuth) {
+            getUser();
+        }
+    }, [isAuth])
 
     return (
         <>
