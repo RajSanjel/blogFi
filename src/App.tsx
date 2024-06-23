@@ -1,5 +1,5 @@
-import './index.css'
-import { Routes, Route } from "react-router-dom/dist";
+import './index.css';
+import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import NotFound from "./components/NotFound";
@@ -11,7 +11,6 @@ import { BlogProvider } from "./context/blogContext";
 
 function App() {
   return (
-
     <div className="flex flex-col min-h-screen">
       <Navbar />
       <main className="flex-1">
@@ -21,13 +20,13 @@ function App() {
             <Route path="/blogs" element={<Blogs />} />
             <Route path="/blogs/blog/:slug" element={<Blog />} />
             <Route path="/create" element={<CreateBlog />} />
-            <Route path="/*" element={<NotFound />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </BlogProvider>
       </main>
       <Footer />
-    </ div>
-  )
+    </div>
+  );
 }
 
 export default App;
