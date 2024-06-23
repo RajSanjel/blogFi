@@ -7,18 +7,16 @@ export default function Blog() {
     const [blog, setBlog] = useState<any>(null);
     const { slug } = useParams();
     const { getBlog } = useBlogs();
-
     const fetchBlog = async () => {
         const res = await getBlog(slug || "");
-        if (res !== undefined) {
-            setBlog(res);
-        }
+        setBlog(res);
+        document.title = blog.title
     };
 
     useEffect(() => {
         fetchBlog();
-        document.title = blog.title;
-    }, [slug]);
+    }, []);
+
     return (
         <div >
             {!!blog ? (

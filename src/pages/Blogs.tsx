@@ -22,7 +22,7 @@ const Blogs = () => {
     }
     useEffect(() => {
         fetch();
-        document.title = "Blogs";
+        document.title = "BlogFi | Blogs";
     }, [])
 
     return (

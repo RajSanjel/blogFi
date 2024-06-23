@@ -32,9 +32,7 @@ const Navbar = () => {
         < nav className="bg-white w-full border-gray border-b-2 shadow-md mb-8 " >
             <div className="items-center px-4 max-w-screen-xl mx-auto md:flex md:px-20 md:max-w-[1600px] ">
                 <div className="flex items-center justify-between py-3 md:py-5 md:block">
-                    <Link to="/">
-                        <h1 className="text-2xl font-bold text-slate-900">BlogFi</h1>
-                    </Link>
+                    <Link to="/" className="text-2xl font-bold text-slate-900">BlogFi</Link>
                     <div className="md:hidden">
                         <button
                             className="text-gray-900 outline-none p-2 rounded-md focus:border-gray-600 focus:border"
