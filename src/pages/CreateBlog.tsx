@@ -1,6 +1,6 @@
 import EditorJS from '@editorjs/editorjs';
 import Header from '@editorjs/header';
-import ImageTool from '@editorjs/image';
+// import ImageTool from '@editorjs/image';
 import List from '@editorjs/list';
 import { useEffect, useRef, useState } from 'react';
 import axios from "axios";
@@ -41,39 +41,39 @@ const CreateBlog = () => {
             tools: {
                 header: Header,
                 list: List,
-                image: {
-                    class: ImageTool,
-                    config: {
-                        uploader: {
-                            async uploadByFile(file: any) {
-                                const formData = new FormData();
-                                formData.append("file", file);
-                                const response = await axios.post(`${API_CONFIG.uploadMeida}`, formData, {
-                                    headers: {
-                                        "Content-Type": "multipart/form-data"
-                                    }
-                                });
-                                return {
-                                    success: 1,
-                                    file: {
-                                        url: response.data.img_url
-                                    }
-                                };
-                            },
-                            async uploadByUrl(url: string) {
-                                const response = await axios.post(`${API_CONFIG.uploadMeida}`, {
-                                    img_url: url
-                                });
-                                return {
-                                    success: 1,
-                                    file: {
-                                        url: response.data.img_url
-                                    }
-                                };
-                            }
-                        }
-                    }
-                }
+                // image: {
+                //     class: ImageTool,
+                //     config: {
+                //         uploader: {
+                //             async uploadByFile(file: any) {
+                //                 const formData = new FormData();
+                //                 formData.append("file", file);
+                //                 const response = await axios.post(`${API_CONFIG.uploadMeida}`, formData, {
+                //                     headers: {
+                //                         "Content-Type": "multipart/form-data"
+                //                     }
+                //                 });
+                //                 return {
+                //                     success: 1,
+                //                     file: {
+                //                         url: response.data.img_url
+                //                     }
+                //                 };
+                //             },
+                //             async uploadByUrl(url: string) {
+                //                 const response = await axios.post(`${API_CONFIG.uploadMeida}`, {
+                //                     img_url: url
+                //                 });
+                //                 return {
+                //                     success: 1,
+                //                     file: {
+                //                         url: response.data.img_url
+                //                     }
+                //                 };
+                //             }
+                //         }
+                //     }
+                // }
             },
             inlineToolbar: true,
             minHeight: 20,

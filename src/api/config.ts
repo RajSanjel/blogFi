@@ -1,4 +1,5 @@
-const API_END_POINT = "http://localhost:3000/api";
+// const API_END_POINT = "http://localhost:3000/api";
+const API_END_POINT = "https://blog-fi-backend.vercel.app/";
 
 const API_CONFIG = {
 
