@@ -1,3 +1,4 @@
+import { formatDate } from "@/utils/formatDate";
 import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 
@@ -10,14 +11,10 @@ type BlogProps = {
 }
 
 const Blog = ({ title, author, content, url, postedOn }: BlogProps) => {
-    const date = new Date(postedOn);
-    const formattedDate = date.toISOString().split("T")[0]
     const contentRef = useRef<HTMLDivElement>(null)
-
     useEffect(() => {
         if (contentRef.current != null)
             contentRef.current.innerHTML = `${content.split(" ").slice(0, 30).join(" ")}...`;
-
     }, [])
 
     return (
@@ -33,7 +30,7 @@ const Blog = ({ title, author, content, url, postedOn }: BlogProps) => {
                 </div>
                 <span className="text-xs break-words">
                     By {author}<br />
-                    On {formattedDate}
+                    On {formatDate(postedOn)}
                 </span>
             </div>
         </div>

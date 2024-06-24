@@ -18,6 +18,7 @@ type UserProp = {
     name: string,
     email: string,
     username: string,
+    userid: string
 }
 
 type AuthContextProps = {
@@ -38,7 +39,7 @@ export function useAuth() {
 
 export function AuthProvider({ children }: any) {
     const [isAuth, setIsAuth] = useState(false)
-    const [user, setUser] = useState<UserProp>({ name: "", email: "", username: "" })
+    const [user, setUser] = useState<UserProp>({ name: "", email: "", username: "", userid: "" })
     const confirmAuth = async () => {
         try {
             await axios.post(API_CONFIG.verify, {}, { withCredentials: true }).then(res => {
@@ -104,7 +105,8 @@ export function AuthProvider({ children }: any) {
                 setUser({
                     username: data.username,
                     name: data.name,
-                    email: data.email
+                    email: data.email,
+                    userid: data.userid
                 })
             }
         } catch (error) {
@@ -116,6 +118,7 @@ export function AuthProvider({ children }: any) {
             getUser();
         }
     }, [isAuth])
+
 
     return (
         <>

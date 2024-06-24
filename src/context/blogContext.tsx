@@ -1,5 +1,5 @@
 import API_CONFIG from "@/api/config";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { createContext, useContext } from "react";
 
 type BlogsProp = {
@@ -13,6 +13,7 @@ type BlogsProp = {
 type BlogContext = {
     getBlogs: () => Promise<BlogsProp[]>;
     getBlog: (url: string) => Promise<BlogsProp>;
+    deleteBlog: (blogid: string) => Promise<boolean>;
 }
 
 const BlogContext = createContext({} as BlogContext)
@@ -25,6 +26,7 @@ export function useBlogs() {
 }
 
 export function BlogProvider({ children }: any) {
+
     async function getBlogs() {
         try {
             const res = await axios.get(API_CONFIG.getBlogs)
@@ -50,7 +52,22 @@ export function BlogProvider({ children }: any) {
         }
     }
 
-    return (<BlogContext.Provider value={{ getBlogs, getBlog }}>
+    const deleteBlog = async (blogid: string) => {
+        try {
+            const res: AxiosResponse<any, any> = await axios.post(API_CONFIG.deleteBlog, { blogid }, { withCredentials: true });
+            if (res.status === 200) {
+                return true;
+            }
+            return false;
+        } catch (error) {
+            console.log((error as Error).message)
+            return false;
+
+        }
+    }
+
+
+    return (<BlogContext.Provider value={{ getBlogs, getBlog, deleteBlog }}>
         {children}
     </BlogContext.Provider >
     )

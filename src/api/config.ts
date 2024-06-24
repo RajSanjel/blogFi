@@ -17,8 +17,9 @@ const API_CONFIG = {
     getBlog: `${API_END_POINT}/blog/getBlog`,
     getBlogs: `${API_END_POINT}/blog/getBlogs`,
     // post req configs 
-    postBlog: `${API_END_POINT}/blog/post`
+    postBlog: `${API_END_POINT}/blog/post`,
 
+    deleteBlog: `${API_END_POINT}/blog/delete`
 }
 
 export default API_CONFIG;
