@@ -61,6 +61,7 @@ const Blogs = () => {
                     <Skeleton />
                     <Skeleton />
                     <Skeleton />
+                    <Skeleton />
                 </>
                 :
                 !blogs ?
