@@ -2,7 +2,7 @@ import EditorJS from "@editorjs/editorjs";
 import Header from "@editorjs/header";
 // import ImageTool from '@editorjs/image';
 import List from "@editorjs/list";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import axios from "axios";
 import API_CONFIG from "../api/config";
 import { useAuth } from "../context/authContext";
@@ -10,15 +10,23 @@ import edjsHTML from "editorjs-html";
 import slug from "slug";
 import z from "zod";
 import { useNavigate } from "react-router-dom";
+import AutoGrowTextarea from "@/components/AutoGrowTextArea";
+
+const TITLE_MAX = 60;
+const TITLE_MIN = 20;
+const BLOG_MIN = 200;
+const BLOG_MAX = 3500;
 
 const titleSchema = z
     .string()
-    .max(60, { message: "Blog title is limited to 60 characters." })
-    .min(20, { message: "Blog title must be atleast 20 characters." });
+    .max(TITLE_MAX, { message: "Blog title is limited to 60 characters." })
+    .min(TITLE_MIN, { message: "Blog title must be atleast 20 characters." });
 
 const contentSchema = z
     .string()
-    .min(200, { message: "Blog too short." });
+    .min(BLOG_MIN, { message: "Blog too short." })
+    .max(BLOG_MAX, { message: "Character limit exceeded." });
+
 
 const blogSchema = z.object({
     url: z.string(),
@@ -41,13 +49,16 @@ const CreateBlog = () => {
     const [titleError, setTitleError] = useState<string | undefined>(undefined);
     const [contentError, setContentError] = useState<string | undefined>(undefined);
 
+    const [isTitleTouched, setIsTitleTouched] = useState(false);
+    const [isBodyTouched, setIsBodyTouched] = useState(false);
+
     const isDraftValid =
         titleSchema.safeParse(title).success &&
         contentSchema.safeParse(blogBody).success;
 
     const initEditor = () => {
         const editor = new EditorJS({
-            holder: "blogContent",
+            holder: "blogBody",
             placeholder: "Write your story",
             tools: {
                 header: Header,
@@ -81,11 +92,12 @@ const CreateBlog = () => {
                 const content = await editor.saver.save();
                 const parsed = editorJsParser.parse(content);
                 setBlogBody(parsed.join("\n"));
+                if (!isBodyTouched) setIsBodyTouched(true);
             },
         });
     };
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (!editorRef.current) initEditor();
         return () => {
             editorRef.current?.destroy();
@@ -94,11 +106,16 @@ const CreateBlog = () => {
     }, []);
 
     useEffect(() => {
-        const t = titleSchema.safeParse(title);
-        const c = contentSchema.safeParse(blogBody);
-        setTitleError(t.success ? undefined : t.error.format()._errors[0]);
-        setContentError(c.success ? undefined : c.error.format()._errors[0]);
-    }, [title, blogBody]);
+        if (isTitleTouched) {
+            const t = titleSchema.safeParse(title);
+            setTitleError(t.success ? undefined : t.error.format()._errors[0]);
+        }
+
+        if (isBodyTouched) {
+            const c = contentSchema.safeParse(blogBody);
+            setContentError(c.success ? undefined : c.error.format()._errors[0]);
+        }
+    }, [title, blogBody, isBodyTouched, isTitleTouched]);
 
     const handlePost = async () => {
         if (!isAuth) return;
@@ -136,24 +153,13 @@ const CreateBlog = () => {
         <div className="mb-8">
             <div className="container lg:w-2/3 w-4/5 border rounded-md border-slate-200 p-4 md:p-8 shadow-inner">
                 <div>
-                    <textarea
-                        className="text-3xl focus:outline-none overflow-hidden resize-none w-full"
-                        name="blogtitle"
-                        id="blogtitle"
-                        placeholder="Title"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                        maxLength={65}
-                    />
+                    <AutoGrowTextarea value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Title" maxLength={TITLE_MAX} onBlur={() => setIsTitleTouched(true)} />
                     {!!titleError && <span className="text-xs">{titleError}</span>}
-
                     <hr />
 
-                    <div id="blogContent" className="py-6 min-h-96 blog" />
+                    <div id="blogBody" className="py-6 min-h-[24rem]"></div>
 
                     {!!contentError && <span className="text-xs">{contentError}</span>}
-
-                    <hr />
                 </div>
 
                 <button

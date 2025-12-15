@@ -1,4 +1,4 @@
-import Blog from "@/components/Blog";
+import BlogCard from "@/components/BlogCard";
 import { useBlogs } from '../context/blogContext';
 import { useEffect, useState } from "react";
 
@@ -69,7 +69,7 @@ const Blogs = () => {
                         No Blogs Found
                     </div> :
                     blogs.map((blog) =>
-                        (<Blog {...blog} key={blog.url} />)
+                        (<BlogCard {...blog} key={blog.url} />)
                     )
             }
 

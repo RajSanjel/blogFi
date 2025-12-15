@@ -28,7 +28,7 @@ function htmlToPreview(html: string, maxLen = 220): string {
     return txt.slice(0, maxLen).trimEnd() + "…";
 }
 
-const Blog = ({ title, author, content, url, postedOn }: BlogProps) => {
+const BlogCard = ({ title, author, content, url, postedOn }: BlogProps) => {
     const preview = useMemo(() => htmlToPreview(content), [content]);
 
     return (
@@ -64,4 +64,4 @@ const Blog = ({ title, author, content, url, postedOn }: BlogProps) => {
     );
 };
 
-export default Blog;
+export default BlogCard;
